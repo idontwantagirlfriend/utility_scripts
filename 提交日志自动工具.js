@@ -1,10 +1,10 @@
-// Submission Logging Tool V 0.1.0
+// Submission Logging Tool V 0.2.0
 // Author: Leah.Fort
 
 // 使用方法：
 // 加载到你的浏览器插件中，在网站加载时自动注入
-// 每次提交前，点击一次记录按钮
-// 提交时会弹出输入描述的选项，这会显示在你最终的报告中
+// 提交任务时，需要在暂存界面，点击“提交并记录”
+// 会弹出输入描述的选项，这会显示在你最终的报告中
 // 点击下载记录保存当日报告
 
 // 记录存储在浏览器中，清除缓存可以删除
@@ -92,12 +92,13 @@ const downloadEntry = (entry, fileName) => {
 
 let saveButton = null;
 setTimeout(() => {
-    injectButton(sideBarLastChildSelector, templateHTMLString('每次提交前点我', 'record_button'), 'record_button')
+    injectButton(sideBarLastChildSelector, templateHTMLString('提交并记录', 'submit_and_record_button'), 'submit_and_record_button')
         .addEventListener("click", () => {
             if (saveButton == null || document.querySelector(saveButtonSelector) !== saveButton) {
                 saveButton = document.querySelector(saveButtonSelector);
-                saveButton.addEventListener('click', reportToLocalStorage);
             };
+            reportToLocalStorage();
+            saveButton.click();
             console.log("Helper script has been injected to record your work submission progress locally.")
         });
     injectButton(sideBarLastChildSelector, templateHTMLString('下载本日提交记录', 'download_button'), 'download_button')
